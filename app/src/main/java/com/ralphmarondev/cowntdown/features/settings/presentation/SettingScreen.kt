@@ -22,8 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.cowntdown.R
 import com.ralphmarondev.cowntdown.features.settings.presentation.components.SettingItemCard
@@ -41,10 +38,10 @@ import com.ralphmarondev.cowntdown.features.settings.presentation.components.The
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingScreen() {
-    val viewModel: SettingViewModel = viewModel()
-    val darkTheme by viewModel.darkTheme.collectAsState()
-
+fun SettingScreen(
+    darkTheme: Boolean,
+    toggleDarkTheme: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -97,11 +94,11 @@ fun SettingScreen() {
                 HorizontalDivider(modifier = Modifier.padding(16.dp))
                 ThemeToggleCard(
                     modifier = Modifier
-                        .clickable { viewModel.toggleDarkTheme() }
+                        .clickable { toggleDarkTheme() }
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 2.dp),
                     darkTheme = darkTheme,
-                    toggleDarkTheme = viewModel::toggleDarkTheme
+                    toggleDarkTheme = toggleDarkTheme
                 )
 
                 SettingItemCard(

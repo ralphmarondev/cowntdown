@@ -30,6 +30,8 @@ import com.ralphmarondev.cowntdown.features.settings.presentation.SettingScreen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppNavigation(
+    darkTheme: Boolean,
+    toggleDarkTheme: () -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     var currentScreen by rememberSaveable { mutableStateOf("Home") }
@@ -111,7 +113,10 @@ fun AppNavigation(
                 MooScreen()
             }
             composable<Routes.Settings> {
-                SettingScreen()
+                SettingScreen(
+                    darkTheme = darkTheme,
+                    toggleDarkTheme = toggleDarkTheme
+                )
             }
         }
     }
