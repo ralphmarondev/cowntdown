@@ -13,18 +13,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ralphmarondev.cowntdown.R
 import com.ralphmarondev.cowntdown.core.components.LottieComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MooScreen() {
+    val context = LocalContext.current
+    val viewModel: MooViewModel = viewModel(
+        factory = MooViewModelFactory(
+            context = context
+        )
+    )
+    val randomFunFact by viewModel.funFact.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,7 +66,7 @@ fun MooScreen() {
                         .height(300.dp)
                 )
                 Button(
-                    onClick = {},
+                    onClick = viewModel::getRandomFunFact,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -66,7 +78,7 @@ fun MooScreen() {
                     )
                 }
                 Text(
-                    text = "Did you know? Cows have best friends!",
+                    text = randomFunFact,
                     fontWeight = FontWeight.W500,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
