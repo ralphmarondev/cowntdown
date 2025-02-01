@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.cowntdown.R
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,6 +43,9 @@ class HomeViewModel(
     private val _currentDate = MutableStateFlow("")
     val currentDate: StateFlow<String> get() = _currentDate
 
+    private var mediaPlayer: MediaPlayer? = null
+    private var typewriterJob: Job? = null
+
     init {
         checkFirstDayOfMonth()
         calculateDaysUntilNextFirstDay()
@@ -76,22 +80,41 @@ class HomeViewModel(
     fun startTypewriterEffect() {
         val textToShow = "Wake up, it's the first of the month!"
         _typewriterText.value = ""
-        viewModelScope.launch {
-            for (i in textToShow.indices) {
-                delay(10)
-                _typewriterText.value += textToShow[i]
+
+        typewriterJob?.cancel()
+        typewriterJob = viewModelScope.launch {
+            while (true) {
+                val builder = StringBuilder()
+                for (char in textToShow) {
+                    builder.append(char)
+                    _typewriterText.value = builder.toString()
+                    delay(10)
+                }
+                delay(5000)
+                _typewriterText.value = ""
             }
         }
     }
 
     fun playSound() {
-        if (_isFirstDayOfMonth.value) {
-            val mediaPlayer = MediaPlayer.create(context, R.raw.first_day_of_month_sound)
-            mediaPlayer.start()
-
-            mediaPlayer.setOnCompletionListener {
-                it.release()
+        if (_isFirstDayOfMonth.value && mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(context, R.raw.first_day_of_month_sound).apply {
+                start()
+                setOnCompletionListener {
+                    it.release()
+                    mediaPlayer = null
+                }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mediaPlayer?.apply {
+            stop()
+            release()
+        }
+        mediaPlayer = null
+        typewriterJob?.cancel()
     }
 }
