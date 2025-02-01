@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Source
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -99,15 +98,6 @@ fun SettingScreen(
                         .padding(horizontal = 16.dp, vertical = 2.dp),
                     darkTheme = darkTheme,
                     toggleDarkTheme = toggleDarkTheme
-                )
-
-                SettingItemCard(
-                    modifier = Modifier
-                        .clickable { }
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    label = "Notifications",
-                    imageVector = Icons.Outlined.Notifications
                 )
                 SettingItemCard(
                     modifier = Modifier
