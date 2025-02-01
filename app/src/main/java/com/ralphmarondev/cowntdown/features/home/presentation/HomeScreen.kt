@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +31,10 @@ import com.ralphmarondev.cowntdown.core.components.LottieComponent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
-    val viewModel: HomeViewModel = viewModel()
+    val context = LocalContext.current
+    val viewModel: HomeViewModel = viewModel(
+        factory = HomeViewModelFactory(context)
+    )
     val isFirstDayOfMonth by viewModel.isFirstDayOfMonth.collectAsState()
     val daysUntilNextFirstDay by viewModel.daysUntilNextFirstDay.collectAsState()
     val typewriterText by viewModel.typewriterText.collectAsState()
@@ -39,6 +43,7 @@ fun HomeScreen() {
     LaunchedEffect(isFirstDayOfMonth) {
         if (isFirstDayOfMonth) {
             viewModel.startTypewriterEffect()
+            viewModel.playSound()
         }
     }
 

@@ -1,7 +1,12 @@
 package com.ralphmarondev.cowntdown.features.home.presentation
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.cowntdown.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -9,7 +14,21 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class HomeViewModel : ViewModel() {
+class HomeViewModelFactory(
+    private val context: Context
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            return HomeViewModel(context) as T
+        }
+        throw IllegalStateException("Unknown ViewModel class")
+    }
+}
+
+@SuppressLint("StaticFieldLeak")
+class HomeViewModel(
+    private val context: Context
+) : ViewModel() {
 
     private val _isFirstDayOfMonth = MutableStateFlow(false)
     val isFirstDayOfMonth: StateFlow<Boolean> get() = _isFirstDayOfMonth
@@ -61,6 +80,17 @@ class HomeViewModel : ViewModel() {
             for (i in textToShow.indices) {
                 delay(10)
                 _typewriterText.value += textToShow[i]
+            }
+        }
+    }
+
+    fun playSound() {
+        if (_isFirstDayOfMonth.value) {
+            val mediaPlayer = MediaPlayer.create(context, R.raw.first_day_of_month_sound)
+            mediaPlayer.start()
+
+            mediaPlayer.setOnCompletionListener {
+                it.release()
             }
         }
     }
