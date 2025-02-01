@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -20,12 +23,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ralphmarondev.cowntdown.R
 import com.ralphmarondev.cowntdown.core.components.LottieComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
+    val viewModel: HomeViewModel = viewModel()
+    val isFirstDayOfMonth by viewModel.isFirstDayOfMonth.collectAsState()
+    val daysUntilNextFirstDay by viewModel.daysUntilNextFirstDay.collectAsState()
+    val typewriterText by viewModel.typewriterText.collectAsState()
+
+    LaunchedEffect(isFirstDayOfMonth) {
+        if (isFirstDayOfMonth) {
+            viewModel.startTypewriterEffect()
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,19 +68,36 @@ fun HomeScreen() {
                     .fillMaxWidth()
                     .height(300.dp)
 
-                LottieComponent(path = R.raw.space_ship, modifier = modifier)
-                LottieComponent(path = R.raw.cow_dancing, modifier = modifier)
-                LottieComponent(path = R.raw.cow_taken_by_alien, modifier = modifier)
-                LottieComponent(path = R.raw.cow_drinking, modifier = modifier)
+                if (isFirstDayOfMonth) {
+                    LottieComponent(path = R.raw.cow_dancing, modifier = modifier)
+                    Text(
+                        text = "February 1, 2025",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
 
-                Text(
-                    text = "Home Screen",
-                    fontWeight = FontWeight.W500,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.padding(16.dp)
-                )
+                    Text(
+                        text = typewriterText,
+                        fontWeight = FontWeight.W500,
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    LottieComponent(path = R.raw.cow_drinking, modifier = modifier)
+                    Text(
+                        text = "Countdown to the next first day of the month: $daysUntilNextFirstDay",
+                        fontWeight = FontWeight.W500,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
             }
         }
     }
