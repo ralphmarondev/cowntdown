@@ -4,6 +4,12 @@ import kotlinx.serialization.Serializable
 
 object Routes {
     @Serializable
+    data object Onboarding
+
+    @Serializable
+    data object Main
+
+    @Serializable
     data object Home
 
     @Serializable
@@ -11,4 +17,13 @@ object Routes {
 
     @Serializable
     data object Settings
+
+    @Serializable
+    data object About
+
+    @Serializable
+    data object Developer
+
+    @Serializable
+    data object Licenses
 }

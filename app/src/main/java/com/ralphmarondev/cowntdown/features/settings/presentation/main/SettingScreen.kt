@@ -1,4 +1,4 @@
-package com.ralphmarondev.cowntdown.features.settings.presentation
+package com.ralphmarondev.cowntdown.features.settings.presentation.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.LogoDev
 import androidx.compose.material.icons.outlined.Source
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -39,7 +40,10 @@ import com.ralphmarondev.cowntdown.features.settings.presentation.components.The
 @Composable
 fun SettingScreen(
     darkTheme: Boolean,
-    toggleDarkTheme: () -> Unit
+    toggleDarkTheme: () -> Unit,
+    navigateToAbout: () -> Unit,
+    navigateToDeveloper: () -> Unit,
+    navigateToLicenses: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -101,11 +105,19 @@ fun SettingScreen(
                 )
                 SettingItemCard(
                     modifier = Modifier
-                        .clickable { }
+                        .clickable { navigateToAbout() }
                         .fillMaxWidth()
                         .padding(16.dp),
                     label = "About",
                     imageVector = Icons.Outlined.Info
+                )
+                SettingItemCard(
+                    modifier = Modifier
+                        .clickable {  }
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    label = "Developer",
+                    imageVector = Icons.Outlined.LogoDev
                 )
                 SettingItemCard(
                     modifier = Modifier

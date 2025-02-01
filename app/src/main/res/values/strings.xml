@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Cowntdown</string>
+    <!-- home screen -->
+    <string name="description_introduction">Cowntdown was created to keep the \"wake-up\" trend alive and make countdowns more engaging. Built using Jetpack Compose and following Clean Architecture, the app ensures a smooth user experience while maintaining scalability.</string>
+    <string name="worker_notification">Worker Notifications – Sends reminders even when the app is closed.</string>
+    <string name="intuitive_navigation">Intuitive Navigation – Simplified user flow using Navigation Compose.</string>
+    <string name="modern_ui">Modern UI – Designed with Material 3, featuring a customizable theme.</string>
+
+    <!-- fun fact screen -->
     <string name="fun_fact_1">Cows have best friends and get stressed when separated from them.</string>
     <string name="fun_fact_2">Cows can recognize faces and remember them for years.</string>
     <string name="fun_fact_3">A cow\'s moo can be heard up to 6 miles away on a clear day.</string>

@@ -1,4 +1,4 @@
-package com.ralphmarondev.cowntdown.features.settings.presentation
+package com.ralphmarondev.cowntdown.features.settings.presentation.main
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
