@@ -54,7 +54,6 @@ class MainActivity : ComponentActivity() {
                     ) {
                         Text(
                             text = "Hello there, Ralph Maron Eda is here!",
-                            fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.W500,
                             fontSize = 20.sp,
                             textAlign = TextAlign.Center,
