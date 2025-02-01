@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeViewModel : ViewModel() {
 
@@ -19,9 +20,13 @@ class HomeViewModel : ViewModel() {
     private val _typewriterText = MutableStateFlow("")
     val typewriterText: StateFlow<String> get() = _typewriterText
 
+    private val _currentDate = MutableStateFlow("")
+    val currentDate: StateFlow<String> get() = _currentDate
+
     init {
         checkFirstDayOfMonth()
         calculateDaysUntilNextFirstDay()
+        getCurrentDate()
     }
 
     private fun checkFirstDayOfMonth() {
@@ -43,8 +48,14 @@ class HomeViewModel : ViewModel() {
         _daysUntilNextFirstDay.value = daysUntilNextFirst.toInt()
     }
 
+    private fun getCurrentDate() {
+        val dateNow = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
+        _currentDate.value = dateNow.format(formatter)
+    }
+
     fun startTypewriterEffect() {
-        val textToShow = "Hey, it's the first of the month!"
+        val textToShow = "Wake up, it's the first of the month!"
         _typewriterText.value = ""
         viewModelScope.launch {
             for (i in textToShow.indices) {

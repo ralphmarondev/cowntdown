@@ -34,6 +34,7 @@ fun HomeScreen() {
     val isFirstDayOfMonth by viewModel.isFirstDayOfMonth.collectAsState()
     val daysUntilNextFirstDay by viewModel.daysUntilNextFirstDay.collectAsState()
     val typewriterText by viewModel.typewriterText.collectAsState()
+    val currentDate by viewModel.currentDate.collectAsState()
 
     LaunchedEffect(isFirstDayOfMonth) {
         if (isFirstDayOfMonth) {
@@ -71,7 +72,7 @@ fun HomeScreen() {
                 if (isFirstDayOfMonth) {
                     LottieComponent(path = R.raw.cow_dancing, modifier = modifier)
                     Text(
-                        text = "February 1, 2025",
+                        text = currentDate,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = MaterialTheme.colorScheme.primary,
