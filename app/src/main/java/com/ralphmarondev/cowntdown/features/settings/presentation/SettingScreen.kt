@@ -1,20 +1,29 @@
 package com.ralphmarondev.cowntdown.features.settings.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Source
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,12 +33,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.cowntdown.R
+import com.ralphmarondev.cowntdown.features.settings.presentation.components.SettingItemCard
+import com.ralphmarondev.cowntdown.features.settings.presentation.components.ThemeToggleCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen() {
+    val viewModel: SettingViewModel = viewModel()
+    val darkTheme by viewModel.darkTheme.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -59,7 +74,7 @@ fun SettingScreen() {
                     contentDescription = "App icon",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(140.dp)
+                        .size(120.dp)
                         .clip(CircleShape)
                 )
 
@@ -78,6 +93,40 @@ fun SettingScreen() {
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.tertiary
+                )
+                HorizontalDivider(modifier = Modifier.padding(16.dp))
+                ThemeToggleCard(
+                    modifier = Modifier
+                        .clickable { viewModel.toggleDarkTheme() }
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 2.dp),
+                    darkTheme = darkTheme,
+                    toggleDarkTheme = viewModel::toggleDarkTheme
+                )
+
+                SettingItemCard(
+                    modifier = Modifier
+                        .clickable { }
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    label = "Notifications",
+                    imageVector = Icons.Outlined.Notifications
+                )
+                SettingItemCard(
+                    modifier = Modifier
+                        .clickable { }
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    label = "About",
+                    imageVector = Icons.Outlined.Info
+                )
+                SettingItemCard(
+                    modifier = Modifier
+                        .clickable { }
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    label = "Licenses",
+                    imageVector = Icons.Outlined.Source
                 )
             }
         }
