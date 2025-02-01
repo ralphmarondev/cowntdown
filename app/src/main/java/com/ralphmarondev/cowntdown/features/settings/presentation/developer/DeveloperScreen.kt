@@ -1,7 +1,10 @@
 package com.ralphmarondev.cowntdown.features.settings.presentation.developer
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -28,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -121,13 +126,69 @@ fun DeveloperScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-// github, insta, tiktok
+                    SocialMediaButton(
+                        imageIcon = R.drawable.github,
+                        contentDescription = "Github",
+                        url = "https://github.com/ralphmarondev",
+                        appUrl = "https://github.com/ralphmarondev"
+                    )
+                    SocialMediaButton(
+                        imageIcon = R.drawable.instagram,
+                        contentDescription = "Instagram",
+                        url = "https://www.instagram.com/ralphmaron/",
+                        appUrl = "instagram://user?username=ralphmaron"
+                    )
+                    SocialMediaButton(
+                        imageIcon = R.drawable.tiktok,
+                        contentDescription = "TikTok",
+                        url = "https://www.tiktok.com/@ralphmaron",
+                        appUrl = "tiktok://user?username=ralphmaron"
+                    )
                 }
             }
             item { Spacer(modifier = Modifier.height(100.dp)) }
+        }
+    }
+}
+
+@Composable
+fun SocialMediaButton(
+    modifier: Modifier = Modifier,
+    imageIcon: Int,
+    contentDescription: String,
+    url: String,
+    appUrl: String
+) {
+    val context = LocalContext.current
+    ElevatedCard(
+        onClick = {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(appUrl))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            } catch (e: Exception) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
+        },
+        modifier = modifier
+            .padding(16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter(imageIcon),
+                contentDescription = contentDescription,
+                modifier = Modifier.size(48.dp),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
