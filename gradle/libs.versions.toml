@@ -12,7 +12,7 @@ uiTextGoogleFonts = "1.7.7"
 coilCompose = "2.6.0"
 coreSplashscreen = "1.0.1"
 composeNavigation = "2.8.6"
-serialization = "1.7.3"
+serialization = "1.6.3"
 materialIconsExtendedAndroid = "1.7.7"
 
 [libraries]
