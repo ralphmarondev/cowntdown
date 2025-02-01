@@ -113,7 +113,7 @@ fun SettingScreen(
                 )
                 SettingItemCard(
                     modifier = Modifier
-                        .clickable {  }
+                        .clickable { navigateToDeveloper() }
                         .fillMaxWidth()
                         .padding(16.dp),
                     label = "Developer",
@@ -121,7 +121,7 @@ fun SettingScreen(
                 )
                 SettingItemCard(
                     modifier = Modifier
-                        .clickable { }
+                        .clickable { navigateToLicenses() }
                         .fillMaxWidth()
                         .padding(16.dp),
                     label = "Licenses",

@@ -92,4 +92,8 @@
     <string name="fun_fact_83">Cows love to be brushed and enjoy being pampered by their caretakers.</string>
     <string name="fun_fact_84">Some cows have unique coat patterns, with patches of different colors and shapes.</string>
     <string name="fun_fact_85">Cows are capable of forming complex relationships with other animals, including humans, dogs, and even cats.</string>
+
+    <!-- licenses-->
+    <string name="app_license">This application uses Massachusetts Institute of Technology (MIT) License. You can find the source code of these open source projects, along with applicable license information below. We are deeply grateful for these developers for their work and contributions.</string>
+
 </resources>

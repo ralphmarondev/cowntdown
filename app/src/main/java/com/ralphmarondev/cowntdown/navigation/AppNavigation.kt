@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ralphmarondev.cowntdown.features.settings.presentation.about.AboutScreen
+import com.ralphmarondev.cowntdown.features.settings.presentation.developer.DeveloperScreen
+import com.ralphmarondev.cowntdown.features.settings.presentation.licenses.LicenseScreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -28,8 +30,16 @@ fun AppNavigation(
                         launchSingleTop = true
                     }
                 },
-                navigateToDeveloper = {},
-                navigateToLicenses = {}
+                navigateToDeveloper = {
+                    navController.navigate(Routes.Developer) {
+                        launchSingleTop = true
+                    }
+                },
+                navigateToLicenses = {
+                    navController.navigate(Routes.Licenses) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
         composable<Routes.About> {
@@ -40,10 +50,18 @@ fun AppNavigation(
             )
         }
         composable<Routes.Developer> {
-
+            DeveloperScreen(
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
         composable<Routes.Licenses> {
-
+            LicenseScreen(
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }
