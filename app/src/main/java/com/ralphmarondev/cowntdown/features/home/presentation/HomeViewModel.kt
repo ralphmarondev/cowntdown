@@ -59,7 +59,7 @@ class HomeViewModel : ViewModel() {
         _typewriterText.value = ""
         viewModelScope.launch {
             for (i in textToShow.indices) {
-                delay(100)
+                delay(10)
                 _typewriterText.value += textToShow[i]
             }
         }
